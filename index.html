@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض تصاميم البطاقات الرقمية</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================================
+        CSS Variables - متغيرات الألوان والتصميم
+        ==================================
+        - يمكنك تعديل هذه المتغيرات لتغيير شكل الموقع بالكامل.
+        - تم تحديث الألوان لتكون أكثر حداثة.
+        */
+        :root {
+            --color-primary: #4A90E2;      /* لون أزرق عصري */
+            --color-primary-dark: #357ABD;
+            --color-background: #F0F2F5;   /* لون خلفية رمادي فاتح */
+            --color-surface: #ffffff;      /* لون الأسطح (مثل الكروت) */
+            --color-text: #333333;         /* لون النص الأساسي */
+            --color-text-light: #ffffff;
+            --color-border: #EAECEF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+            --font-family-main: 'Tajawal', sans-serif;
+            --transition-speed: 0.35s;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-main);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden; /* لمنع أي تجاوز أفقي */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animation for page content */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================================
+        إضافة حركة ديناميكية لعناصر الصفحة الرئيسية
+        ================================== */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تطبيق الحركة بشكل متتابع على عناصر الصفحة الرئيسية */
+        #home-page .logo,
+        #home-page .page-title,
+        #home-page .page-subtitle,
+        #home-page .btn {
+            opacity: 0; /* تبدأ العناصر مخفية */
+            animation-fill-mode: forwards; /* تبقى الحالة النهائية للحركة */
+            animation-name: slideInUp;
+            animation-duration: 0.8s;
+            animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* تحديد تأخير لكل عنصر ليظهر بشكل متتابع */
+        #home-page .logo { animation-delay: 0.2s; }
+        #home-page .page-title { animation-delay: 0.4s; }
+        #home-page .page-subtitle { animation-delay: 0.6s; }
+        #home-page .btn { animation-delay: 0.8s; }
+
+        /* الحفاظ على حركة الدخول لمعرض الصور */
+        #gallery-page .container {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+
+        /* Page Styles */
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            /* تم نقل الحركة من هنا لتطبيقها بشكل مخصص لكل صفحة على حدة */
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: #555;
+            margin-bottom: 2.5rem;
+            max-width: 650px;
+        }
+
+        /* ==================================
+        تعديل تصميم الأزرار (Buttons Design)
+        ================================== */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px; /* تصميم أكثر استدارة */
+            font-family: var(--font-family-main);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-image: linear-gradient(45deg, var(--color-primary), #63A3E9);
+            color: var(--color-text-light);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: #25D366; /* لون الواتساب */
+            color: var(--color-text-light);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        /* ==================================
+        تعديل تصميم الصفحة الرئيسية (Home Page Design)
+        ================================== */
+        #home-page {
+            position: relative;
+            background: linear-gradient(135deg, #F0F2F5 0%, #E6E9ED 100%);
+            height: 100vh; /* تحديد ارتفاع ثابت يملأ الشاشة بالكامل */
+            overflow: hidden; /* منع ظهور شريط التحريك العمودي */
+        }
+        
+        #home-page::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--color-primary), #B2D4F8);
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(50px);
+            animation: moveShape 15s infinite alternate;
+        }
+         #home-page::after {
+            content: '';
+            position: absolute;
+            bottom: -15%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, #F7C8D1, #AEE5E2);
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(60px);
+            animation: moveShape 20s infinite alternate-reverse;
+        }
+
+        @keyframes moveShape {
+             from { transform: translate(0, 0) rotate(0deg); }
+             to { transform: translate(100px, 50px) rotate(45deg); }
+        }
+
+        #home-page .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+            z-index: 2;
+        }
+        #home-page .container {
+             z-index: 2;
+             position: relative;
+        }
+
+        /* ==================================
+        (Header) تعديل تصميم رأس الصفحة
+        ================================== */
+        .gallery-header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            z-index: 100;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #gallery-page {
+             padding-top: 6rem; /* Space for header */
+        }
+
+        .gallery-header .logo-small {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* ==================================
+        (Back Button) تعديل: تصميم زر الرجوع
+        ================================== */
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background-color: transparent;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+        .back-btn:hover {
+            background-color: #e9ecef;
+        }
+        .back-btn .arrow {
+            font-size: 1.2rem;
+            transition: transform var(--transition-speed) ease;
+        }
+        .back-btn:hover .arrow {
+            /* For RTL (right-to-left), move arrow to the left */
+            transform: translateX(-4px);
+        }
+        
+        /* ==================================
+        (Chat Button) تصميم زر الشات
+        ================================== */
+        .chat-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text-light);
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            background-color: #25D366; /* لون الواتساب */
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+        .chat-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+        }
+        .chat-btn .whatsapp-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Templates Grid */
+        .templates-grid {
+            display: grid;
+            gap: 2rem;
+            width: 100%;
+            perspective: 1500px;
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        /* ==================================
+        (Grid Breakpoints) تعديل نقاط الشبكة
+        ================================== */
+        @media (min-width: 640px) { .templates-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .templates-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        /* ==================================
+        تعديل: تصميم وحركة البطاقات (Card Design)
+        ================================== */
+        .template-card {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all var(--transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            transform: translateZ(0);
+        }
+
+        .template-card:hover {
+            transform: translateY(-10px) rotateX(3deg) scale(1.03);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-images {
+            position: relative; /* Required for the zoom indicator */
+            cursor: pointer;
+            height: 250px;
+            background-color: #f9f9f9;
+            overflow: hidden; /* Ensure image hover effect doesn't break card boundaries */
+        }
+        
+        .card-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the area nicely */
+            object-position: top center;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .template-card:hover .card-images img {
+            transform: scale(1.05); /* Zoom effect on image itself */
+        }
+        
+        /* ==================================
+        (Zoom Indicator) إضافة: إشارة تكبير الصورة
+        ================================== */
+        .zoom-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+            pointer-events: none; /* Allows click events to pass through */
+        }
+
+        .template-card:hover .zoom-indicator {
+            opacity: 1;
+        }
+
+        .card-content {
+            padding: 1.25rem 1.5rem;
+            text-align: right;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .card-content .btn {
+            padding: 0.6rem 1.4rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* ==================================
+        (Modal Design) تصميم النافذة المنبثقة
+        ================================== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.9) translateY(20px);
+            transition: transform var(--transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-image-container {
+            position: relative;
+            background-color: #1a1a1a;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            display: block;
+            opacity: 1;
+            transition: opacity 0.2s ease-in-out;
+        }
+        
+        .modal-image.fade-out {
+            opacity: 0;
+        }
+
+        .modal-close, .modal-nav {
+            position: absolute;
+            background-color: rgba(20, 20, 20, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .modal-close:hover, .modal-nav:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .modal-close {
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .modal-nav {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .modal-prev { left: 1rem; }
+        .modal-next { right: 1rem; }
+
+        .modal-footer {
+            text-align: center;
+            padding-top: 1.25rem;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <main id="home-page" class="page">
+        <div class="container">
+            <h1 class="logo">بطاقة ال NFC </h1>
+            <h2 class="page-title">بطاقة الأعمال الرقمية الذكية</h2>
+            <p class="page-subtitle">
+                أظهر تميزك بطريقة عصرية. اختر التصميم الذي يناسبك ودعنا نصمم لك بطاقتك الرقمية.
+            </p>
+            <a href="#gallery" class="btn btn-primary">اختر تصميم بطاقتك</a>
+        </div>
+    </main>
+
+    <main id="gallery-page" class="page hidden">
+        <header class="gallery-header">
+            <a href="#home" class="logo-small">بطاقتي</a>
+            <div class="header-buttons">
+                <a href="https://wa.me/+962799569573?text=عندي%20تصميم%20ورح%20ازودك%20بالصورة%20بع%20المعلومات%20المستهدفه%0A%0Aالاسم%20كامل%20(بالعربي%20أو%20بالإنجليزي):%0A%0A🔹%20وصف%20قصير%20عنك:%0A%0A🔹%20رقم%20الهاتف:%0A%0A🔹%20البريد%20الإلكتروني%20الفعال%20للتواصل:%0A%0A🔹%20اسمك%20على%20مواقع%20التواصل%20(اللي%20بدك%20يطلع%20على%20البطاقة):%0A%0A🔹%20روابط%20أو%20مواقع%20إضافية%20تحب%20الناس%20توصلها:" class="chat-btn" target="_blank">
+                    <span class="whatsapp-icon">💬</span>
+                    <span>املك تصميم خاص</span>
+                </a>
+                <a href="#home" class="back-btn">
+                    <span>العودة للرئيسية</span>
+                    <span class="arrow">&#8592;</span>
+                </a>
+            </div>
+        </header>
+        <div class="container">
+            <h2 class="page-title">معرض التصاميم</h2>
+            <p class="page-subtitle">تصفح التصاميم المتاحة واختر ما يعجبك. يمكنك معاينة الصور بالضغط عليها.</p>
+            <div id="templates-grid" class="templates-grid"></div>
+        </div>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-image-container">
+                 <button id="modal-close" class="modal-close">&times;</button>
+                 <img src="" alt="معاينة التصميم" id="modal-image" class="modal-image">
+                 <button id="modal-prev" class="modal-nav modal-prev">&#10094;</button>
+                 <button id="modal-next" class="modal-nav modal-next">&#10095;</button>
+            </div>
+            <div class="modal-footer">
+                <p id="modal-caption"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ==================================
+        // تعديل بيانات الموقع (Website Data)
+        // ==================================
+        // يمكنك تغيير رقم الواتساب والرسالة من هنا
+        const WHATSAPP_NUMBER = '+962799569573';
+        const WHATSAPP_MESSAGE_TEMPLATE = `مرحباً، اخترت تصميم: [DESIGN_NAME]
+الاسم كامل (بالعربي أو بالإنجليزي):
+
+🔹 وصف قصير عنك:
+
+🔹 رقم الهاتف:
+
+🔹 البريد الإلكتروني الفعال للتواصل:
+
+🔹 اسمك على مواقع التواصل (اللي بدك يطلع على البطاقة):
+
+🔹 روابط أو مواقع إضافية تحب الناس توصلها:
+ `;
+        
+        // رسالة زر الشات
+        const CHAT_MESSAGE = `عندي تصميم ورح ازودك بالصورة و المعلومات المستهدفه 
+
+الاسم كامل (بالعربي أو بالإنجليزي):
+
+🔹 وصف قصير عنك:
+
+🔹 رقم الهاتف:
+
+🔹 البريد الإلكتروني الفعال للتواصل:
+
+🔹 اسمك على مواقع التواصل (اللي بدك يطلع على البطاقة):
+
+🔹 روابط أو مواقع إضافية تحب الناس توصلها:
+`;
+
+        // يمكنك إضافة أو حذف أو تعديل التصاميم من هنا.
+        // فقط قم بتعديل هذا الجزء، وسيقوم الكود بالباقي.
+        const templatesData = [
+            { name: "تصميم عصري 1", images: [{ src: "images/Black And White Simple Personal Business Card/1/1.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/1/2.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 2", images: [{ src: "images/Black And White Simple Personal Business Card/2/11 (1).png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/2/11 (2).png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 3", images: [{ src: "images/Black And White Simple Personal Business Card/3/22 (1).png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/3/22 (2).png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 4", images:  [{ src: "images/Black And White Simple Personal Business Card/4/Black and Gold Luxury Business Card (2).png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/4/Black and Gold Luxury Business Card.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 5", images: [{ src: "images/Black And White Simple Personal Business Card/5/Screenshot 2025-09-29 145251.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/5/Screenshot 2025-09-29 145301.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 6", images: [{ src: "images/Black And White Simple Personal Business Card/6/Screenshot 2025-09-29 145311.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/6/Screenshot 2025-09-29 145319.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 7", images: [{ src: "images/Black And White Simple Personal Business Card/7/Screenshot 2025-09-29 145328.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/7/Screenshot 2025-09-29 145341.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 8", images: [{ src: "images/Black And White Simple Personal Business Card/8/Screenshot 2025-09-29 145348.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/8/Screenshot 2025-09-29 145355.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 9", images: [{ src: "images/Black And White Simple Personal Business Card/9/Screenshot 2025-09-29 145404.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/9/Screenshot 2025-09-29 145414.png", caption: "ظهر البطاقة" }] },
+            { name: "تصميم عصري 10", images: [{ src: "images/Black And White Simple Personal Business Card/10/Screenshot 2025-09-29 145553.png", caption: "وجه البطاقة" }, { src: "images/Black And White Simple Personal Business Card/10/Screenshot 2025-09-29 145545.png", caption: "ظهر البطاقة" }] },
+        ];
+
+        // إضافة ID فريد لكل تصميم لضمان عمل الكود بشكل سليم
+        const templates = templatesData.map((template, index) => ({
+            ...template,
+            id: `template-${index + 1}`
+        }));
+        
+        // ==================================
+        // الكود الوظيفي للموقع - لا تقم بتعديل ما هو أدناه
+        // ==================================
+
+        const homePage = document.getElementById('home-page');
+        const galleryPage = document.getElementById('gallery-page');
+        const templatesGrid = document.getElementById('templates-grid');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalCaption = document.getElementById('modal-caption');
+        const modalCloseBtn = document.getElementById('modal-close');
+        const modalPrevBtn = document.getElementById('modal-prev');
+        const modalNextBtn = document.getElementById('modal-next');
+
+        let currentTemplateImages = [];
+        let currentImageIndex = 0;
+
+        // ==================================
+        // تعديل: تم التأكيد على عمل سجل المتصفح (History)
+        // هذه الدالة مسؤولة عن التنقل بين "الصفحات" بناءً على الرابط
+        // ==================================
+        function handleRouting() {
+            const hash = window.location.hash;
+            if (hash === '#gallery') {
+                homePage.classList.add('hidden');
+                galleryPage.classList.remove('hidden');
+            } else {
+                homePage.classList.remove('hidden');
+                galleryPage.classList.add('hidden');
+                // نضمن أن الرابط يعود للحالة الأولية إذا لم يكن #gallery
+                if (history.pushState) {
+                    history.pushState(null, null, '#home');
+                } else {
+                    location.hash = '#home';
+                }
+            }
+            window.scrollTo(0, 0); // العودة لأعلى الصفحة عند التنقل
+        }
+
+        // الاستماع لتغير الرابط (hash) لتفعيل التنقل
+        window.addEventListener('hashchange', handleRouting);
+        
+        // ==================================
+        // تعديل: تحسين طريقة عرض البطاقات في المعرض
+        // ==================================
+        function renderGallery() {
+            if (!templatesGrid) return;
+            templatesGrid.innerHTML = '';
+            templates.forEach(template => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                card.dataset.templateId = template.id;
+
+                // نعرض فقط الصورة الأولى لكل تصميم في البطاقة الرئيسية
+                const firstImage = template.images[0];
+
+                card.innerHTML = `
+                    <div class="card-images" data-template-id="${template.id}">
+                        <img src="${firstImage.src}" alt="معاينة تصميم ${template.name}" loading="lazy">
+                        <div class="zoom-indicator">&#128269;</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${template.name}</h3>
+                        <button class="btn btn-primary choose-design-btn" data-design-name="${template.name}">اختر التصميم</button>
+                    </div>
+                `;
+                templatesGrid.appendChild(card);
+            });
+        }
+        
+        function openModal(templateId, imageIndex) {
+            const template = templates.find(t => t.id === templateId);
+            if (!template) return;
+            
+            currentTemplateImages = template.images;
+            currentImageIndex = imageIndex;
+            updateModalImage(true); // First open
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateModalImage(isFirstLoad = false) {
+             if (isFirstLoad) {
+                modalImage.src = currentTemplateImages[currentImageIndex].src;
+                modalImage.alt = currentTemplateImages[currentImageIndex].caption;
+             } else {
+                modalImage.classList.add('fade-out');
+                setTimeout(() => {
+                    modalImage.src = currentTemplateImages[currentImageIndex].src;
+                    modalImage.alt = currentTemplateImages[currentImageIndex].caption;
+                    modalImage.classList.remove('fade-out');
+                }, 200);
+            }
+            modalCaption.textContent = `${currentTemplateImages[currentImageIndex].caption} (${currentImageIndex + 1} / ${currentTemplateImages.length})`;
+        }
+        
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentTemplateImages.length;
+            updateModalImage();
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentTemplateImages.length) % currentTemplateImages.length;
+            updateModalImage();
+        }
+
+        // Event Listeners
+        templatesGrid.addEventListener('click', (e) => {
+            const cardImages = e.target.closest('.card-images');
+            const chooseButton = e.target.closest('.choose-design-btn');
+
+            if (cardImages) {
+                const templateId = cardImages.dataset.templateId;
+                // عند الضغط، نفتح المعرض دائمًا من الصورة الأولى
+                openModal(templateId, 0);
+            } else if (chooseButton) {
+                const designName = chooseButton.dataset.designName;
+                const message = WHATSAPP_MESSAGE_TEMPLATE.replace('[DESIGN_NAME]', designName);
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        });
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        modalPrevBtn.addEventListener('click', showPrevImage);
+        modalNextBtn.addEventListener('click', showNextImage);
+
+        // التحكم بالنافذة المنبثقة من خلال لوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') showNextImage();
+            if (e.key === 'ArrowLeft') showPrevImage();
+        });
+
+        // تشغيل الدوال عند تحميل الصفحة
+        renderGallery();
+        handleRouting(); // للتعامل مع تحميل الصفحة على رابط معين مباشرة
+    });
+    </script>
+</body>
+</html>
